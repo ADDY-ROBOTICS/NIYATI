@@ -1,0 +1,320 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(250 50% 98%);
+  --foreground: hsl(250 20% 15%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(250 20% 15%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(250 20% 15%);
+  --primary: hsl(262 83% 58%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(200 100% 60%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --muted: hsl(250 20% 96%);
+  --muted-foreground: hsl(250 20% 45%);
+  --accent: hsl(25 100% 65%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(356.3033 90.5579% 54.3137%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(250 20% 92%);
+  --input: hsl(250 20% 96%);
+  --ring: hsl(262 83% 58%);
+  --chart-1: hsl(262 83% 58%);
+  --chart-2: hsl(200 100% 60%);
+  --chart-3: hsl(25 100% 65%);
+  --chart-4: hsl(147.1429 78.5047% 41.9608%);
+  --chart-5: hsl(341.4894 75.2000% 50.9804%);
+  --sidebar: hsl(0 0% 100%);
+  --sidebar-foreground: hsl(250 20% 15%);
+  --sidebar-primary: hsl(262 83% 58%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(250 20% 96%);
+  --sidebar-accent-foreground: hsl(262 83% 58%);
+  --sidebar-border: hsl(250 20% 92%);
+  --sidebar-ring: hsl(262 83% 58%);
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 12px;
+  --shadow-2xs: 0px 2px 0px 0px hsl(262 83% 58% / 0.00);
+  --shadow-xs: 0px 2px 0px 0px hsl(262 83% 58% / 0.00);
+  --shadow-sm: 0px 2px 0px 0px hsl(262 83% 58% / 0.00), 0px 1px 2px -1px hsl(262 83% 58% / 0.00);
+  --shadow: 0px 2px 0px 0px hsl(262 83% 58% / 0.00), 0px 1px 2px -1px hsl(262 83% 58% / 0.00);
+  --shadow-md: 0px 2px 0px 0px hsl(262 83% 58% / 0.00), 0px 2px 4px -1px hsl(262 83% 58% / 0.00);
+  --shadow-lg: 0px 2px 0px 0px hsl(262 83% 58% / 0.00), 0px 4px 6px -1px hsl(262 83% 58% / 0.00);
+  --shadow-xl: 0px 2px 0px 0px hsl(262 83% 58% / 0.00), 0px 8px 10px -1px hsl(262 83% 58% / 0.00);
+  --shadow-2xl: 0px 2px 0px 0px hsl(262 83% 58% / 0.00);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+}
+
+.dark {
+  --background: hsl(0 0% 0%);
+  --foreground: hsl(200 6.6667% 91.1765%);
+  --card: hsl(228 9.8039% 10%);
+  --card-foreground: hsl(0 0% 85.0980%);
+  --popover: hsl(0 0% 0%);
+  --popover-foreground: hsl(200 6.6667% 91.1765%);
+  --primary: hsl(262 83% 58%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(200 100% 60%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --muted: hsl(0 0% 9.4118%);
+  --muted-foreground: hsl(210 3.3898% 46.2745%);
+  --accent: hsl(25 100% 65%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(356.3033 90.5579% 54.3137%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(210 5.2632% 14.9020%);
+  --input: hsl(207.6923 27.6596% 18.4314%);
+  --ring: hsl(262 83% 58%);
+  --sidebar: hsl(228 9.8039% 10%);
+  --sidebar-foreground: hsl(0 0% 85.0980%);
+  --sidebar-primary: hsl(262 83% 58%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(205.7143 70% 7.8431%);
+  --sidebar-accent-foreground: hsl(200 100% 60%);
+  --sidebar-border: hsl(205.7143 15.7895% 26.0784%);
+  --sidebar-ring: hsl(262 83% 58%);
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 12px;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Custom gradient backgrounds */
+.gradient-bg {
+  background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(200 100% 60%) 100%);
+}
+
+.gradient-card {
+  background: linear-gradient(135deg, hsl(25 100% 65%) 0%, hsl(340 75% 65%) 100%);
+}
+
+/* Animations */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-10px); 
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Progress ring styling */
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+  transition: stroke-dashoffset 0.35s;
+  transform-origin: 50% 50%;
+}
+
+/* Mood selector styling */
+.mood-selector {
+  @apply p-3 rounded-lg border border-input hover:bg-accent hover:text-accent-foreground transition-all cursor-pointer text-2xl;
+}
+
+.mood-selector.selected {
+  @apply bg-primary text-primary-foreground border-primary;
+}
+
+/* Career card hover effects */
+.career-card {
+  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+}
+
+/* Navigation active state */
+.nav-btn {
+  @apply transition-all duration-200 hover:text-primary;
+}
+
+/* Radio button custom styling */
+.custom-radio {
+  @apply flex items-center p-4 rounded-lg border border-input hover:bg-muted cursor-pointer transition-all;
+}
+
+.custom-radio:has(input:checked) {
+  @apply bg-primary bg-opacity-10 border-primary;
+}
+
+.radio-dot {
+  @apply w-5 h-5 border-2 border-primary rounded-full mr-3 flex items-center justify-center;
+}
+
+.radio-dot-inner {
+  @apply w-2 h-2 bg-primary rounded-full opacity-0 transition-opacity;
+}
+
+.custom-radio:has(input:checked) .radio-dot-inner {
+  @apply opacity-100;
+}
+
+/* Achievement badge styling */
+.achievement-badge {
+  @apply text-center p-4 rounded-lg transition-all hover:bg-muted hover:bg-opacity-50;
+}
+
+.achievement-badge.locked {
+  @apply opacity-50;
+}
+
+.achievement-icon {
+  @apply w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2 text-white;
+}
+
+/* Journal insights styling */
+.insight-tag {
+  @apply p-3 bg-muted rounded-lg;
+}
+
+/* Writing prompt styling */
+.writing-prompt {
+  @apply w-full text-left p-3 rounded-lg hover:bg-muted transition-all text-sm cursor-pointer;
+}
+
+/* Career tag styling */
+.career-tag {
+  @apply px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.career-tag.creativity {
+  @apply bg-primary bg-opacity-10 text-primary;
+}
+
+.career-tag.problem-solving {
+  @apply bg-secondary bg-opacity-10 text-secondary;
+}
+
+.career-tag.tech {
+  @apply bg-accent bg-opacity-10 text-accent;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50;
+}
+
+/* Skill bar styling */
+.skill-bar {
+  @apply flex items-center justify-between mb-3;
+}
+
+.skill-progress {
+  @apply w-24 h-2 bg-muted rounded-full mr-2 relative overflow-hidden;
+}
+
+.skill-progress-fill {
+  @apply h-full rounded-full transition-all duration-500;
+}
+
+/* Interest area styling */
+.interest-area {
+  @apply p-3 rounded-lg text-center transition-all hover:bg-opacity-20 cursor-pointer;
+}
+
+.interest-area.active {
+  @apply ring-2 ring-primary ring-opacity-100;
+}
+
+/* Roadmap year styling */
+.roadmap-year {
+  @apply border border-border rounded-lg p-4 relative;
+}
+
+.roadmap-year-number {
+  @apply w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3;
+}
+
+.roadmap-year-1 .roadmap-year-number {
+  @apply bg-primary;
+}
+
+.roadmap-year-2 .roadmap-year-number {
+  @apply bg-secondary;
+}
+
+.roadmap-year-3 .roadmap-year-number {
+  @apply bg-accent;
+}
+
+/* Similar career styling */
+.similar-career {
+  @apply p-2 rounded border border-border hover:bg-muted cursor-pointer transition-all;
+}
+
+/* Form enhancements */
+.form-field {
+  @apply space-y-2;
+}
+
+.form-label {
+  @apply block text-sm font-medium;
+}
+
+.form-input {
+  @apply w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring transition-all;
+}
+
+.form-textarea {
+  @apply w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring min-h-[120px] resize-none transition-all;
+}
+
+.form-select {
+  @apply w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring appearance-none cursor-pointer transition-all;
+}
+
+/* Button variations */
+.btn-primary {
+  @apply gradient-bg text-white font-semibold hover:opacity-90 transition-all;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-secondary-foreground font-medium hover:bg-secondary hover:bg-opacity-90 transition-all;
+}
+
+.btn-outline {
+  @apply border border-border hover:bg-muted transition-all;
+}
+
+/* Loading states */
+.loading-spinner {
+  @apply animate-spin rounded-full border-2 border-muted border-t-primary;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mobile-stack {
+    @apply flex-col space-y-4;
+  }
+  
+  .mobile-full {
+    @apply w-full;
+  }
+  
+  .mobile-text-center {
+    @apply text-center;
+  }
+}

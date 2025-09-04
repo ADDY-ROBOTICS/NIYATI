@@ -1,0 +1,69 @@
+{
+  "appName": "Ikigai for Teens",
+  "motive": {
+    "vision": "To create a personalized, AI-driven mobile application that helps teenagers discover their 'Ikigai' – the intersection of their passion, skills, mission, and vocation – to make informed and fulfilling career choices.",
+    "mission": "To develop a functional prototype for SIH 2025 that demonstrates the core feedback loop of the app: user input (journaling, personality tests) leading to actionable, AI-generated career guidance and planning."
+  },
+  "featureSet": [
+    {
+      "featureName": "Personality Assessment",
+      "description": "Establishes a baseline user profile through a structured, multiple-choice personality test. This data is a foundational input for the recommendation engine.",
+      "userFlow": [
+        "User creates an account and logs in.",
+        "User is prompted to begin the personality assessment.",
+        "User answers a series of multiple-choice questions presented one by one or in sections.",
+        "Upon completion, the results are calculated and saved to the user's profile in the database.",
+        "User receives a confirmation that the assessment is complete."
+      ],
+      "technicalImplementation": {
+        "model": "Based on a recognized psychological framework like the 'Big Five' or 'Holland Codes'.",
+        "frontend": "A clean, multi-screen questionnaire UI built in React Native or Flutter.",
+        "backend": "An API endpoint (e.g., '/submit_assessment') that accepts the user's answers, calculates the scores, and saves the final profile vector to Firestore."
+      }
+    },
+    {
+      "featureName": "AI-Powered Daily Journal",
+      "description": "The primary data collection tool where users can write about their daily activities, thoughts, and feelings. This unstructured text is the key source for discovering the user's genuine interests and skills.",
+      "userFlow": [
+        "User navigates to the 'Journal' section of the app.",
+        "User is presented with a clean text editor, possibly with prompts like 'What did you enjoy today?' or 'What problem did you solve?'.",
+        "User writes their entry and clicks 'Save'.",
+        "The entry is sent to the backend and saved. The user sees their new entry in a list of past entries."
+      ],
+      "technicalImplementation": {
+        "frontend": "A simple and inviting UI with a text input field and a save button. A scrollable view to see past entries.",
+        "backend": "An API endpoint (e.g., '/add_journal_entry') that receives the text, saves it to Firestore under the user's ID, and triggers the asynchronous NLP analysis.",
+        "nlpPipeline": "Upon saving, the text is processed using a Python script with spaCy or NLTK to extract keywords, skills (nouns/verbs), and recurring themes."
+      }
+    },
+    {
+      "featureName": "Career Recommendation Engine",
+      "description": "The core AI component of the application. It synthesizes all user data (personality assessment and journal analysis) to generate a ranked list of suitable careers.",
+      "userFlow": [
+        "This is primarily a backend process, triggered when the user requests their results.",
+        "User navigates to the 'My Ikigai' or 'Recommendations' page.",
+        "User clicks a button like 'Update My Recommendations'.",
+        "The app makes a request to the backend, which runs the algorithm and returns a list of career suggestions."
+      ],
+      "technicalImplementation": {
+        "careerDatabase": "A collection in Firestore containing documents for hundreds of careers, each tagged with vectors representing required personality traits, skills, and interests (data sourced from O*NET).",
+        "userProfileVector": "A dynamically generated numerical vector for each user, combining their personality scores with a vector derived from the keywords and themes extracted from their journal entries.",
+        "algorithm": "A content-based filtering system using Cosine Similarity to calculate the match score between the user's profile vector and each career vector in the database.",
+        "backend": "An API endpoint (e.g., '/get_recommendations') that takes a user ID, computes the scores, and returns a ranked JSON array of the top N careers."
+      }
+    },
+    {
+      "featureName": "Career & Roadmap Display",
+      "description": "A user-facing screen that presents the career recommendations in an understandable way and provides a basic, actionable next step.",
+      "userFlow": [
+        "After getting recommendations, the user sees a list of suggested careers (e.g., 'Software Engineer', 'Graphic Designer').",
+        "User taps on a career to view more details.",
+        "The detail screen shows a brief description of the career and a simplified, pre-filled 3-year roadmap template (e.g., Year 1: Learn Python, Year 2: Build 3 projects, Year 3: Get an internship)."
+      ],
+      "technicalImplementation": {
+        "frontend": "A results screen in React Native/Flutter that lists the careers. A detail screen that dynamically displays information for the selected career, including the roadmap template.",
+        "backend": "The recommendation endpoint will also provide the brief description for each suggested career. The roadmap can be a static template on the frontend initially, customized for a few key career categories."
+      }
+    }
+  ]
+}

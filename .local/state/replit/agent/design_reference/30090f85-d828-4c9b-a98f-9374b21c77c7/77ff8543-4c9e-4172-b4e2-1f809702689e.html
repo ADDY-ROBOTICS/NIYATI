@@ -1,0 +1,866 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ikigai for Teens - Discover Your Purpose</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                },
+                fontFamily: {
+                    sans: ["Inter", "system-ui", "sans-serif"],
+                }
+            },
+        }
+    };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --radius: 12px;
+            --background: hsl(250 50% 98%);
+            --foreground: hsl(250 20% 15%);
+            --card: hsl(0 0% 100%);
+            --card-foreground: hsl(250 20% 15%);
+            --primary: hsl(262 83% 58%);
+            --primary-foreground: hsl(0 0% 100%);
+            --secondary: hsl(200 100% 60%);
+            --secondary-foreground: hsl(0 0% 100%);
+            --muted: hsl(250 20% 96%);
+            --muted-foreground: hsl(250 20% 45%);
+            --accent: hsl(25 100% 65%);
+            --accent-foreground: hsl(0 0% 100%);
+            --border: hsl(250 20% 92%);
+            --input: hsl(250 20% 96%);
+            --ring: hsl(262 83% 58%);
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(200 100% 60%) 100%);
+        }
+        
+        .gradient-card {
+            background: linear-gradient(135deg, hsl(25 100% 65%) 0%, hsl(340 75% 65%) 100%);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                    <i class="fas fa-compass text-white text-sm"></i>
+                </div>
+                <span class="font-bold text-lg">Ikigai</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="nav-dashboard" class="nav-btn text-primary font-medium">Dashboard</button>
+                <button id="nav-journal" class="nav-btn text-muted-foreground hover:text-primary">Journal</button>
+                <button id="nav-profile" class="nav-btn text-muted-foreground hover:text-primary">Profile</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen active min-h-screen">
+        <div class="gradient-bg min-h-screen flex items-center justify-center px-4">
+            <div class="max-w-md w-full text-center text-white">
+                <div class="animate-float mb-8">
+                    <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-compass text-white text-4xl"></i>
+                    </div>
+                </div>
+                <h1 class="text-4xl font-bold mb-4">Welcome to Ikigai</h1>
+                <p class="text-lg opacity-90 mb-8">Discover your purpose and find the perfect career path that aligns with your passion, skills, and values.</p>
+                <button id="get-started-btn" class="bg-white text-primary px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/90 transition-all transform hover:scale-105">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Screen -->
+    <div id="registration-screen" class="screen pt-20 pb-8 px-4">
+        <div class="container mx-auto max-w-md">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Create Your Profile</h2>
+                <p class="text-muted-foreground">Let's start your journey to discover your Ikigai</p>
+            </div>
+            
+            <div class="bg-card rounded-xl shadow-lg p-6 border border-border">
+                <form data-mock="true">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Full Name</label>
+                            <input type="text" data-mock="true" class="w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring" placeholder="Enter your name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Age</label>
+                            <select data-mock="true" class="w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring">
+                                <option>13-15</option>
+                                <option>16-18</option>
+                                <option>19-21</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" data-mock="true" class="w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring" placeholder="your.email@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Password</label>
+                            <input type="password" data-mock="true" class="w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring" placeholder="Create a secure password">
+                        </div>
+                    </div>
+                    <button id="register-btn" type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold mt-6 hover:opacity-90 transition-all">
+                        Create Account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="screen pt-20 pb-8 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold mb-2">Your Ikigai Journey</h1>
+                <p class="text-muted-foreground">Track your progress and discover your purpose</p>
+            </div>
+
+            <!-- Progress Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Overall Progress -->
+                <div class="bg-card rounded-xl p-6 border border-border text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-4">
+                        <svg class="w-20 h-20 progress-ring">
+                            <circle cx="40" cy="40" r="36" stroke="var(--muted)" stroke-width="8" fill="transparent"></circle>
+                            <circle cx="40" cy="40" r="36" stroke="var(--primary)" stroke-width="8" fill="transparent" 
+                                    stroke-dasharray="226" stroke-dashoffset="113" class="progress-ring-circle"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-2xl font-bold text-primary">50%</span>
+                        </div>
+                    </div>
+                    <h3 class="font-semibold mb-1">Journey Progress</h3>
+                    <p class="text-sm text-muted-foreground">Keep going!</p>
+                </div>
+
+                <!-- Assessment Status -->
+                <div class="bg-card rounded-xl p-6 border border-border">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
+                            <i class="fas fa-brain text-white"></i>
+                        </div>
+                        <span class="text-accent font-semibold">Completed</span>
+                    </div>
+                    <h3 class="font-semibold mb-1">Personality Assessment</h3>
+                    <p class="text-sm text-muted-foreground">Big Five analysis complete</p>
+                </div>
+
+                <!-- Journal Entries -->
+                <div class="bg-card rounded-xl p-6 border border-border">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center">
+                            <i class="fas fa-book text-white"></i>
+                        </div>
+                        <span class="text-secondary font-semibold">12 entries</span>
+                    </div>
+                    <h3 class="font-semibold mb-1">Journal Streak</h3>
+                    <p class="text-sm text-muted-foreground">AI analysis ongoing</p>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Daily Journal -->
+                <div class="gradient-card rounded-xl p-6 text-white">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Daily Journal</h3>
+                            <p class="opacity-90">Reflect on your day and discover patterns</p>
+                        </div>
+                        <i class="fas fa-pen-fancy text-2xl opacity-75"></i>
+                    </div>
+                    <button id="open-journal-btn" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition-all">
+                        Write Entry
+                    </button>
+                </div>
+
+                <!-- Career Recommendations -->
+                <div class="bg-card rounded-xl p-6 border border-border">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Career Matches</h3>
+                            <p class="text-muted-foreground">Based on your personality and interests</p>
+                        </div>
+                        <i class="fas fa-rocket text-2xl text-primary"></i>
+                    </div>
+                    <button id="view-careers-btn" class="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 transition-all">
+                        View Results
+                    </button>
+                </div>
+            </div>
+
+            <!-- Achievement Badges -->
+            <div class="bg-card rounded-xl p-6 border border-border">
+                <h3 class="text-xl font-bold mb-4">Recent Achievements</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center p-4 bg-muted rounded-lg">
+                        <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-trophy text-white"></i>
+                        </div>
+                        <p class="text-sm font-medium">First Entry</p>
+                    </div>
+                    <div class="text-center p-4 bg-muted rounded-lg">
+                        <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-fire text-white"></i>
+                        </div>
+                        <p class="text-sm font-medium">7-Day Streak</p>
+                    </div>
+                    <div class="text-center p-4 bg-muted rounded-lg">
+                        <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-star text-white"></i>
+                        </div>
+                        <p class="text-sm font-medium">Assessment Complete</p>
+                    </div>
+                    <div class="text-center p-4 bg-border rounded-lg opacity-50">
+                        <div class="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-lock text-muted-foreground"></i>
+                        </div>
+                        <p class="text-sm font-medium text-muted-foreground">30-Day Streak</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Personality Assessment Screen -->
+    <div id="assessment-screen" class="screen pt-20 pb-8 px-4">
+        <div class="container mx-auto max-w-2xl">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Personality Assessment</h2>
+                <p class="text-muted-foreground">Answer honestly to get the most accurate results</p>
+                
+                <!-- Progress Bar -->
+                <div class="mt-6 bg-muted rounded-full h-2">
+                    <div class="bg-primary h-2 rounded-full transition-all duration-500" style="width: 20%"></div>
+                </div>
+                <p class="text-sm text-muted-foreground mt-2">Question 1 of 5</p>
+            </div>
+
+            <div class="bg-card rounded-xl shadow-lg p-8 border border-border">
+                <h3 class="text-xl font-semibold mb-6">I prefer to work in groups rather than alone</h3>
+                
+                <div class="space-y-3">
+                    <label class="flex items-center p-4 rounded-lg border border-input hover:bg-muted cursor-pointer transition-all">
+                        <input type="radio" name="q1" value="1" class="sr-only">
+                        <div class="w-5 h-5 border-2 border-primary rounded-full mr-3 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-primary rounded-full hidden"></div>
+                        </div>
+                        <span>Strongly Disagree</span>
+                    </label>
+                    <label class="flex items-center p-4 rounded-lg border border-input hover:bg-muted cursor-pointer transition-all">
+                        <input type="radio" name="q1" value="2" class="sr-only">
+                        <div class="w-5 h-5 border-2 border-primary rounded-full mr-3 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-primary rounded-full hidden"></div>
+                        </div>
+                        <span>Disagree</span>
+                    </label>
+                    <label class="flex items-center p-4 rounded-lg border border-input hover:bg-muted cursor-pointer transition-all">
+                        <input type="radio" name="q1" value="3" class="sr-only">
+                        <div class="w-5 h-5 border-2 border-primary rounded-full mr-3 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-primary rounded-full hidden"></div>
+                        </div>
+                        <span>Neutral</span>
+                    </label>
+                    <label class="flex items-center p-4 rounded-lg border border-input hover:bg-muted cursor-pointer transition-all">
+                        <input type="radio" name="q1" value="4" class="sr-only">
+                        <div class="w-5 h-5 border-2 border-primary rounded-full mr-3 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-primary rounded-full hidden"></div>
+                        </div>
+                        <span>Agree</span>
+                    </label>
+                    <label class="flex items-center p-4 rounded-lg border border-input hover:bg-muted cursor-pointer transition-all">
+                        <input type="radio" name="q1" value="5" class="sr-only">
+                        <div class="w-5 h-5 border-2 border-primary rounded-full mr-3 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-primary rounded-full hidden"></div>
+                        </div>
+                        <span>Strongly Agree</span>
+                    </label>
+                </div>
+
+                <div class="flex justify-between mt-8">
+                    <button class="px-6 py-2 border border-border rounded-lg hover:bg-muted transition-all opacity-50 cursor-not-allowed">
+                        Previous
+                    </button>
+                    <button id="next-question-btn" class="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all">
+                        Next Question
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Journal Screen -->
+    <div id="journal-screen" class="screen pt-20 pb-8 px-4">
+        <div class="container mx-auto max-w-4xl">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Daily Journal</h2>
+                <p class="text-muted-foreground">Reflect on your experiences and let AI help you discover patterns</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Journal Entry Form -->
+                <div class="lg:col-span-2">
+                    <div class="bg-card rounded-xl p-6 border border-border mb-6">
+                        <h3 class="text-xl font-semibold mb-4">Today's Entry</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">How are you feeling today?</label>
+                                <div class="flex space-x-2">
+                                    <button class="p-3 rounded-lg border border-input hover:bg-accent hover:text-accent-foreground transition-all">😊</button>
+                                    <button class="p-3 rounded-lg border border-input hover:bg-accent hover:text-accent-foreground transition-all">😐</button>
+                                    <button class="p-3 rounded-lg border border-input hover:bg-accent hover:text-accent-foreground transition-all">😔</button>
+                                    <button class="p-3 rounded-lg border border-input hover:bg-accent hover:text-accent-foreground transition-all">😤</button>
+                                    <button class="p-3 rounded-lg border border-input hover:bg-accent hover:text-accent-foreground transition-all">😴</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">What did you enjoy most today?</label>
+                                <textarea data-mock="true" class="w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring min-h-[120px]" placeholder="Describe what brought you joy or satisfaction today..."></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">What challenges did you face?</label>
+                                <textarea data-mock="true" class="w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring min-h-[120px]" placeholder="Share any difficulties or obstacles you encountered..."></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">What did you learn or discover?</label>
+                                <textarea data-mock="true" class="w-full px-4 py-3 rounded-lg border border-input bg-input focus:outline-none focus:ring-2 focus:ring-ring min-h-[120px]" placeholder="Reflect on new insights, skills, or knowledge gained..."></textarea>
+                            </div>
+                        </div>
+                        <button class="w-full gradient-bg text-white py-3 rounded-lg font-semibold mt-6 hover:opacity-90 transition-all">
+                            <i class="fas fa-save mr-2"></i>Save Entry
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Journal History & Insights -->
+                <div class="space-y-6">
+                    <!-- AI Insights -->
+                    <div class="bg-card rounded-xl p-6 border border-border">
+                        <h3 class="font-semibold mb-4 flex items-center">
+                            <i class="fas fa-brain text-primary mr-2"></i>
+                            AI Insights
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-muted rounded-lg">
+                                <p class="text-sm font-medium">Creativity Pattern</p>
+                                <p class="text-xs text-muted-foreground">You mention art and design frequently</p>
+                            </div>
+                            <div class="p-3 bg-muted rounded-lg">
+                                <p class="text-sm font-medium">Problem Solving</p>
+                                <p class="text-xs text-muted-foreground">Strong analytical thinking skills</p>
+                            </div>
+                            <div class="p-3 bg-muted rounded-lg">
+                                <p class="text-sm font-medium">Team Collaboration</p>
+                                <p class="text-xs text-muted-foreground">Enjoys working with others</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Entries -->
+                    <div class="bg-card rounded-xl p-6 border border-border">
+                        <h3 class="font-semibold mb-4">Recent Entries</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 border border-border rounded-lg hover:bg-muted cursor-pointer transition-all">
+                                <p class="text-sm font-medium">Yesterday</p>
+                                <p class="text-xs text-muted-foreground truncate">Had a great time working on the group project...</p>
+                            </div>
+                            <div class="p-3 border border-border rounded-lg hover:bg-muted cursor-pointer transition-all">
+                                <p class="text-sm font-medium">2 days ago</p>
+                                <p class="text-xs text-muted-foreground truncate">Learned about web design in computer class...</p>
+                            </div>
+                            <div class="p-3 border border-border rounded-lg hover:bg-muted cursor-pointer transition-all">
+                                <p class="text-sm font-medium">3 days ago</p>
+                                <p class="text-xs text-muted-foreground truncate">Volunteered at the animal shelter today...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Writing Prompts -->
+                    <div class="bg-card rounded-xl p-6 border border-border">
+                        <h3 class="font-semibold mb-4">Writing Prompts</h3>
+                        <div class="space-y-2">
+                            <button class="w-full text-left p-3 rounded-lg hover:bg-muted transition-all text-sm">
+                                "What made you feel proud today?"
+                            </button>
+                            <button class="w-full text-left p-3 rounded-lg hover:bg-muted transition-all text-sm">
+                                "Describe a moment when time flew by"
+                            </button>
+                            <button class="w-full text-left p-3 rounded-lg hover:bg-muted transition-all text-sm">
+                                "What would you change about your day?"
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Career Recommendations Screen -->
+    <div id="career-screen" class="screen pt-20 pb-8 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Your Career Matches</h2>
+                <p class="text-muted-foreground">Based on your personality and journal insights</p>
+            </div>
+
+            <!-- Top Matches -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Career Card 1 -->
+                <div class="bg-card rounded-xl p-6 border border-border hover:shadow-lg transition-all cursor-pointer" onclick="showCareerDetails('ux-designer')">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center">
+                            <i class="fas fa-palette text-white"></i>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold text-primary">94%</div>
+                            <div class="text-xs text-muted-foreground">Match</div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">UX Designer</h3>
+                    <p class="text-muted-foreground text-sm mb-4">Create intuitive and beautiful user experiences for digital products</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs">Creative</span>
+                        <span class="px-2 py-1 bg-secondary/10 text-secondary rounded-full text-xs">Problem Solving</span>
+                        <span class="px-2 py-1 bg-accent/10 text-accent rounded-full text-xs">Tech-Savvy</span>
+                    </div>
+                    <div class="text-sm text-muted-foreground">
+                        <p><i class="fas fa-dollar-sign mr-1"></i>$65,000 - $120,000</p>
+                        <p><i class="fas fa-chart-line mr-1"></i>22% growth expected</p>
+                    </div>
+                </div>
+
+                <!-- Career Card 2 -->
+                <div class="bg-card rounded-xl p-6 border border-border hover:shadow-lg transition-all cursor-pointer" onclick="showCareerDetails('software-developer')">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 gradient-card rounded-full flex items-center justify-center">
+                            <i class="fas fa-code text-white"></i>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold text-primary">91%</div>
+                            <div class="text-xs text-muted-foreground">Match</div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Software Developer</h3>
+                    <p class="text-muted-foreground text-sm mb-4">Build applications and systems that solve real-world problems</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs">Logical</span>
+                        <span class="px-2 py-1 bg-secondary/10 text-secondary rounded-full text-xs">Detail-Oriented</span>
+                        <span class="px-2 py-1 bg-accent/10 text-accent rounded-full text-xs">Innovation</span>
+                    </div>
+                    <div class="text-sm text-muted-foreground">
+                        <p><i class="fas fa-dollar-sign mr-1"></i>$70,000 - $130,000</p>
+                        <p><i class="fas fa-chart-line mr-1"></i>25% growth expected</p>
+                    </div>
+                </div>
+
+                <!-- Career Card 3 -->
+                <div class="bg-card rounded-xl p-6 border border-border hover:shadow-lg transition-all cursor-pointer" onclick="showCareerDetails('graphic-designer')">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
+                            <i class="fas fa-paint-brush text-white"></i>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold text-primary">87%</div>
+                            <div class="text-xs text-muted-foreground">Match</div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Graphic Designer</h3>
+                    <p class="text-muted-foreground text-sm mb-4">Create visual content to communicate messages and engage audiences</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs">Artistic</span>
+                        <span class="px-2 py-1 bg-secondary/10 text-secondary rounded-full text-xs">Visual Thinking</span>
+                        <span class="px-2 py-1 bg-accent/10 text-accent rounded-full text-xs">Communication</span>
+                    </div>
+                    <div class="text-sm text-muted-foreground">
+                        <p><i class="fas fa-dollar-sign mr-1"></i>$45,000 - $85,000</p>
+                        <p><i class="fas fa-chart-line mr-1"></i>8% growth expected</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Career Exploration Tools -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Personality Fit Analysis -->
+                <div class="bg-card rounded-xl p-6 border border-border">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-user-check text-primary mr-2"></i>
+                        Personality Fit Analysis
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Creativity</span>
+                            <div class="flex items-center">
+                                <div class="w-24 h-2 bg-muted rounded-full mr-2">
+                                    <div class="w-20 h-2 bg-primary rounded-full"></div>
+                                </div>
+                                <span class="text-sm font-medium">85%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Problem Solving</span>
+                            <div class="flex items-center">
+                                <div class="w-24 h-2 bg-muted rounded-full mr-2">
+                                    <div class="w-22 h-2 bg-secondary rounded-full"></div>
+                                </div>
+                                <span class="text-sm font-medium">92%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Collaboration</span>
+                            <div class="flex items-center">
+                                <div class="w-24 h-2 bg-muted rounded-full mr-2">
+                                    <div class="w-18 h-2 bg-accent rounded-full"></div>
+                                </div>
+                                <span class="text-sm font-medium">75%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Leadership</span>
+                            <div class="flex items-center">
+                                <div class="w-24 h-2 bg-muted rounded-full mr-2">
+                                    <div class="w-16 h-2 bg-primary rounded-full"></div>
+                                </div>
+                                <span class="text-sm font-medium">68%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interest Exploration -->
+                <div class="bg-card rounded-xl p-6 border border-border">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-compass text-primary mr-2"></i>
+                        Interest Areas
+                    </h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="p-3 bg-primary/10 rounded-lg text-center">
+                            <i class="fas fa-laptop-code text-primary text-xl mb-2"></i>
+                            <p class="text-sm font-medium">Technology</p>
+                        </div>
+                        <div class="p-3 bg-accent/10 rounded-lg text-center">
+                            <i class="fas fa-palette text-accent text-xl mb-2"></i>
+                            <p class="text-sm font-medium">Design</p>
+                        </div>
+                        <div class="p-3 bg-secondary/10 rounded-lg text-center">
+                            <i class="fas fa-users text-secondary text-xl mb-2"></i>
+                            <p class="text-sm font-medium">People</p>
+                        </div>
+                        <div class="p-3 bg-muted rounded-lg text-center">
+                            <i class="fas fa-seedling text-muted-foreground text-xl mb-2"></i>
+                            <p class="text-sm font-medium text-muted-foreground">Environment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Career Detail Modal -->
+    <div id="career-detail-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-card rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-border flex items-center justify-between">
+                <h2 class="text-2xl font-bold">UX Designer</h2>
+                <button onclick="hideCareerDetails()" class="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-border transition-all">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Main Content -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Overview -->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3">Overview</h3>
+                            <p class="text-muted-foreground">UX Designers create meaningful and relevant experiences for users by understanding their needs, behaviors, and motivations. They combine user research, design thinking, and technical skills to craft intuitive digital products.</p>
+                        </div>
+
+                        <!-- 3-Year Roadmap -->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3">3-Year Career Roadmap</h3>
+                            <div class="space-y-4">
+                                <!-- Year 1 -->
+                                <div class="border border-border rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">1</div>
+                                        <h4 class="font-semibold">Year 1: Foundation</h4>
+                                    </div>
+                                    <ul class="text-sm text-muted-foreground space-y-1 ml-11">
+                                        <li>• Learn design fundamentals (color theory, typography, layout)</li>
+                                        <li>• Master design tools (Figma, Adobe XD, Sketch)</li>
+                                        <li>• Build first portfolio with 3-5 projects</li>
+                                        <li>• Take online courses (Google UX Design Certificate)</li>
+                                        <li>• Join design communities and follow industry blogs</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Year 2 -->
+                                <div class="border border-border rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">2</div>
+                                        <h4 class="font-semibold">Year 2: Specialization</h4>
+                                    </div>
+                                    <ul class="text-sm text-muted-foreground space-y-1 ml-11">
+                                        <li>• Focus on UX research methods and usability testing</li>
+                                        <li>• Learn prototyping and interaction design</li>
+                                        <li>• Work on real client projects or internships</li>
+                                        <li>• Develop expertise in mobile and web design</li>
+                                        <li>• Network with professionals and attend design events</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Year 3 -->
+                                <div class="border border-border rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">3</div>
+                                        <h4 class="font-semibold">Year 3: Professional Entry</h4>
+                                    </div>
+                                    <ul class="text-sm text-muted-foreground space-y-1 ml-11">
+                                        <li>• Apply for junior UX designer positions</li>
+                                        <li>• Lead design projects from concept to completion</li>
+                                        <li>• Develop business acumen and strategy skills</li>
+                                        <li>• Mentor other aspiring designers</li>
+                                        <li>• Consider pursuing advanced certifications</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="space-y-6">
+                        <!-- Quick Stats -->
+                        <div class="bg-muted rounded-lg p-4">
+                            <h4 class="font-semibold mb-3">Quick Facts</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span>Salary Range:</span>
+                                    <span class="font-medium">$65K - $120K</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Job Growth:</span>
+                                    <span class="font-medium text-accent">+22%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Education:</span>
+                                    <span class="font-medium">Bachelor's</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Remote Work:</span>
+                                    <span class="font-medium text-secondary">High</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Required Skills -->
+                        <div>
+                            <h4 class="font-semibold mb-3">Key Skills</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs">User Research</span>
+                                <span class="px-2 py-1 bg-secondary/10 text-secondary rounded-full text-xs">Wireframing</span>
+                                <span class="px-2 py-1 bg-accent/10 text-accent rounded-full text-xs">Prototyping</span>
+                                <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs">Figma</span>
+                                <span class="px-2 py-1 bg-secondary/10 text-secondary rounded-full text-xs">Usability Testing</span>
+                                <span class="px-2 py-1 bg-accent/10 text-accent rounded-full text-xs">Design Systems</span>
+                            </div>
+                        </div>
+
+                        <!-- Similar Careers -->
+                        <div>
+                            <h4 class="font-semibold mb-3">Similar Careers</h4>
+                            <div class="space-y-2">
+                                <div class="p-2 rounded border border-border hover:bg-muted cursor-pointer transition-all">
+                                    <p class="text-sm font-medium">UI Designer</p>
+                                    <p class="text-xs text-muted-foreground">89% match</p>
+                                </div>
+                                <div class="p-2 rounded border border-border hover:bg-muted cursor-pointer transition-all">
+                                    <p class="text-sm font-medium">Product Designer</p>
+                                    <p class="text-xs text-muted-foreground">86% match</p>
+                                </div>
+                                <div class="p-2 rounded border border-border hover:bg-muted cursor-pointer transition-all">
+                                    <p class="text-sm font-medium">Interaction Designer</p>
+                                    <p class="text-xs text-muted-foreground">82% match</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation and Screen Management
+        const screens = document.querySelectorAll('.screen');
+        const navButtons = document.querySelectorAll('.nav-btn');
+
+        function showScreen(screenId) {
+            screens.forEach(screen => screen.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            // Update navigation
+            navButtons.forEach(btn => btn.classList.remove('text-primary', 'font-medium'));
+            navButtons.forEach(btn => btn.classList.add('text-muted-foreground'));
+            
+            const activeBtn = document.getElementById(`nav-${screenId.replace('-screen', '')}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-muted-foreground');
+                activeBtn.classList.add('text-primary', 'font-medium');
+            }
+        }
+
+        // Navigation event listeners
+        document.getElementById('nav-dashboard').addEventListener('click', () => showScreen('dashboard-screen'));
+        document.getElementById('nav-journal').addEventListener('click', () => showScreen('journal-screen'));
+        document.getElementById('nav-profile').addEventListener('click', () => showScreen('assessment-screen'));
+
+        // Welcome screen -> Registration
+        document.getElementById('get-started-btn').addEventListener('click', () => {
+            showScreen('registration-screen');
+        });
+
+        // Registration -> Assessment
+        document.getElementById('register-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen('assessment-screen');
+        });
+
+        // Assessment navigation
+        document.getElementById('next-question-btn').addEventListener('click', () => {
+            // TODO: Implement question progression logic
+            // For demo, show dashboard after a delay
+            setTimeout(() => {
+                showScreen('dashboard-screen');
+            }, 500);
+        });
+
+        // Dashboard quick actions
+        document.getElementById('open-journal-btn').addEventListener('click', () => {
+            showScreen('journal-screen');
+        });
+
+        document.getElementById('view-careers-btn').addEventListener('click', () => {
+            showScreen('career-screen');
+        });
+
+        // Radio button styling for assessment
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Reset all radio buttons in the same group
+                document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => {
+                    r.parentElement.querySelector('.w-2').classList.add('hidden');
+                });
+                // Show selected radio button
+                this.parentElement.querySelector('.w-2').classList.remove('hidden');
+            });
+        });
+
+        // Career detail modal functions
+        function showCareerDetails(careerId) {
+            document.getElementById('career-detail-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideCareerDetails() {
+            document.getElementById('career-detail-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on background click
+        document.getElementById('career-detail-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('career-detail-modal')) {
+                hideCareerDetails();
+            }
+        });
+
+        // Initialize app
+        (() => {
+            // Show welcome screen by default
+            showScreen('welcome-screen');
+            
+            // Add some interactive animations
+            document.querySelectorAll('.animate-float').forEach(element => {
+                element.style.animationDelay = Math.random() * 2 + 's';
+            });
+        })();
+    </script>
+</body>
+</html>
